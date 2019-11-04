@@ -7,7 +7,7 @@ void main(){
     home: Initial(),
     theme: ThemeData(
       primaryColor: Colors.blueGrey[900],
-      accentColor: Color(0xff25D366)
+      accentColor: Colors.blue[400]
     ),    
     initialRoute: "/",
     onGenerateRoute: RouteGenerator.generateRoute,

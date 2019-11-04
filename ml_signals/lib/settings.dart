@@ -90,6 +90,10 @@ class _SettingsState extends State<Settings> {
   }
 
   _getUserData() async {
+    setState(() {
+      _uploading = true;
+    });
+
     FirebaseAuth auth = FirebaseAuth.instance;
     FirebaseUser currentUser = await auth.currentUser();
     userId = currentUser.uid;
@@ -103,6 +107,10 @@ class _SettingsState extends State<Settings> {
 
     if (userData["urlImage"] != null) {
       _urlImage = userData["urlImage"];
+      setState(() {
+        _uploading = false;
+        _urlImage = userData["urlImage"];
+      });
     }
   }
 
@@ -124,7 +132,7 @@ class _SettingsState extends State<Settings> {
         child: Center(
           child: SingleChildScrollView(
             child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
+//              crossAxisAlignment: CrossAxisAlignment.stretch,
               children: <Widget>[
                 Container(
                   padding: EdgeInsets.all(16),
@@ -140,14 +148,14 @@ class _SettingsState extends State<Settings> {
                   children: <Widget>[
                     FlatButton(
                       child: Text("Camera",
-                        style: TextStyle(color: Colors.white, fontSize: 16)),
+                          style: TextStyle(color: Colors.white, fontSize: 16)),
                       onPressed: () {
                         _getImage("camera");
                       },
                     ),
                     FlatButton(
                       child: Text("Gallery",
-                        style: TextStyle(color: Colors.white, fontSize: 16)),
+                          style: TextStyle(color: Colors.white, fontSize: 16)),
                       onPressed: () {
                         _getImage("gallery");
                       },
@@ -172,18 +180,23 @@ class _SettingsState extends State<Settings> {
                 ),
                 Padding(
                   padding: EdgeInsets.only(top: 16, bottom: 10),
-                  child: RaisedButton(
-                      child: Text(
-                        "Salve",
-                        style: TextStyle(color: Colors.white, fontSize: 20),
-                      ),
-                      color: Theme.of(context).primaryColor,
-                      padding: EdgeInsets.fromLTRB(24, 12, 24, 12),
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(32)),
-                      onPressed: () {
-                        _updateNameFirestore();
-                      }),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: <Widget>[
+                      RaisedButton(
+                          child: Text(
+                            "Salve",
+                            style: TextStyle(color: Colors.white, fontSize: 20),
+                          ),
+                          color: Theme.of(context).primaryColor,
+                          padding: EdgeInsets.fromLTRB(24, 12, 24, 12),
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(32)),
+                          onPressed: () {
+                            _updateNameFirestore();
+                          }),
+                    ],
+                  ),
                 )
               ],
             ),
