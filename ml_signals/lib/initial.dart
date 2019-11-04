@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
 class Initial extends StatefulWidget {
   @override
@@ -6,6 +8,14 @@ class Initial extends StatefulWidget {
 }
 
 class _InitialState extends State<Initial> {
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+  final GoogleSignIn googleSignIn = GoogleSignIn(
+    scopes: <String>[
+      'email',
+      'https://www.googleapis.com/auth/contacts.readonly',
+    ],
+  );
+
   Widget myButton(String text, Color splashColor, Color highlightColor,
       Color fillColor, Color textColor, void function()) {
     return RaisedButton(
@@ -29,14 +39,54 @@ class _InitialState extends State<Initial> {
   }
 
   void _login() {
-    Navigator.pushReplacementNamed(context, "/login");
+    Navigator.pushNamed(context, "/login");
   }
 
   void _register() {
-    Navigator.pushReplacementNamed(context, "/register");
+    Navigator.pushNamed(context, "/register");
   }
 
-  void _signin() {}
+  Future<String> signInWithGoogle() async {
+    final GoogleSignInAccount googleSignInAccount = await googleSignIn.signIn();
+    final GoogleSignInAuthentication googleSignInAuthentication =
+        await googleSignInAccount.authentication;
+
+    final AuthCredential credential = GoogleAuthProvider.getCredential(
+      accessToken: googleSignInAuthentication.accessToken,
+      idToken: googleSignInAuthentication.idToken,
+    );
+
+    final AuthResult authResult = await _auth.signInWithCredential(credential);
+    final FirebaseUser user = authResult.user;
+
+    assert(!user.isAnonymous);
+    assert(await user.getIdToken() != null);
+
+    final FirebaseUser currentUser = await _auth.currentUser();
+    assert(user.uid == currentUser.uid);
+
+    return 'signInWithGoogle succeeded: $user';
+  }
+
+  void _signin() {
+    signInWithGoogle().whenComplete(() {
+      Navigator.pushReplacementNamed(context, "/home");
+    });
+  }
+
+  Future _loggedIn() async {
+    FirebaseAuth auth = FirebaseAuth.instance;
+
+    if (await auth.currentUser() != null) {
+      Navigator.pushReplacementNamed(context, "/checkout");
+    }
+  }
+
+  @override
+  void initState() {
+    _loggedIn();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
