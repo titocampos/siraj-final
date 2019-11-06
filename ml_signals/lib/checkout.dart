@@ -225,6 +225,7 @@ class _CheckoutState extends State<Checkout>
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
             Container(
+              width: 500,
               padding: EdgeInsets.only(bottom: 6),
               child: TextFormField(
                 autofocus: true,
@@ -251,7 +252,7 @@ class _CheckoutState extends State<Checkout>
                 cursorColor: Theme.of(context).primaryColor,
                 keyboardType: TextInputType.emailAddress,
                 textInputAction: TextInputAction.next,
-                style: TextStyle(fontSize: 16),
+                style: TextStyle(fontSize: 18),
                 decoration: InputDecoration(
                   prefixIcon: Icon(Icons.credit_card),
                   filled: true,

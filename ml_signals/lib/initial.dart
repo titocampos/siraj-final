@@ -105,8 +105,8 @@ class _InitialState extends State<Initial> {
                     padding: EdgeInsets.only(bottom: 32),
                     child: Image.asset(
                       "images/signal.png",
-                      width: 260,
-                      height: 104,
+                      width: 325,
+                      height: 130,
                     ),
                   ),
                   Padding(

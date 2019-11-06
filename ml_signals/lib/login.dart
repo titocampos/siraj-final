@@ -97,8 +97,8 @@ class _LoginState extends State<Login> {
                   padding: EdgeInsets.only(bottom: 32),
                   child: Image.asset(
                     "images/signal.png",
-                    width: 180,
-                    height: 150,
+                    width: 325,
+                    height: 130,
                   ),
                 ),
                 Padding(
