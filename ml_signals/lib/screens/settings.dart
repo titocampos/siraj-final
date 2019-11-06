@@ -10,12 +10,19 @@ class Settings extends StatefulWidget {
   _SettingsState createState() => _SettingsState();
 }
 
+GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey();
+
 class _SettingsState extends State<Settings> {
   TextEditingController _controllerName = TextEditingController();
   File _image;
   String userId;
   bool _uploading = false;
   String _urlImage;
+
+  void setError(dynamic error) {
+    _scaffoldKey.currentState
+        .showSnackBar(SnackBar(content: Text(error.toString())));
+  }
 
   Future _getImage(String source) async {
     File imageSelected;
@@ -78,7 +85,11 @@ class _SettingsState extends State<Settings> {
 
     Map<String, dynamic> userData = {"name": name};
 
-    db.collection("users").document(userId).updateData(userData);
+    db.collection("users").document(userId).updateData(userData).then((_){
+       _scaffoldKey.currentState
+          .showSnackBar(SnackBar(content: Text('Saved!')));
+
+    });
   }
 
   _updateImageURL(String url) {
@@ -112,6 +123,11 @@ class _SettingsState extends State<Settings> {
         _urlImage = userData["urlImage"];
       });
     }
+    else{
+      setState(() {
+        _uploading = false;
+      });
+    }
   }
 
   @override
@@ -123,6 +139,7 @@ class _SettingsState extends State<Settings> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: _scaffoldKey,
       backgroundColor: Colors.blueGrey[600],
       appBar: AppBar(
         title: Text("Settings"),
@@ -166,7 +183,6 @@ class _SettingsState extends State<Settings> {
                   padding: EdgeInsets.only(bottom: 8),
                   child: TextField(
                     controller: _controllerName,
-                    autofocus: true,
                     keyboardType: TextInputType.text,
                     style: TextStyle(fontSize: 20),
                     decoration: InputDecoration(

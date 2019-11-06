@@ -70,7 +70,7 @@ class _InitialState extends State<Initial> {
 
   void _signin() {
     signInWithGoogle().whenComplete(() {
-      Navigator.pushReplacementNamed(context, "/checkout");
+      Navigator.pushNamedAndRemoveUntil(context, "/loadingCredit", (_)=>false);
     });
   }
 
@@ -78,7 +78,7 @@ class _InitialState extends State<Initial> {
     FirebaseAuth auth = FirebaseAuth.instance;
 
     if (await auth.currentUser() != null) {
-      Navigator.pushReplacementNamed(context, "/checkout");
+      Navigator.pushNamedAndRemoveUntil(context, "/loadingCredit", (_)=>false);
     }
   }
 
@@ -92,6 +92,7 @@ class _InitialState extends State<Initial> {
   Widget build(BuildContext context) {
     Color primaryColor = Theme.of(context).primaryColor;
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       home: Scaffold(
         body: Container(
           decoration: BoxDecoration(color: Colors.blueGrey[600]),

@@ -1,14 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:ml_signals/models/user.dart';
 
-class Login extends StatefulWidget {
+class Register extends StatefulWidget {
   @override
-  _LoginState createState() => _LoginState();
+  _RegisterState createState() => _RegisterState();
 }
 
-class _LoginState extends State<Login> {
+class _RegisterState extends State<Register> {
   //Controllers
+  TextEditingController _controllerName = TextEditingController(text: "");
   TextEditingController _controllerEmail = TextEditingController(text: "");
   TextEditingController _controllerPass = TextEditingController(text: "");
   String _errorMsg = "";
@@ -24,66 +26,61 @@ class _LoginState extends State<Login> {
   }
 
   _validateFields() async {
+    String name = _controllerName.text;
     String email = _controllerEmail.text;
     String pass = _controllerPass.text;
 
-    if (_emailValidator(email).isEmpty) {
-      if (pass.isNotEmpty && pass.length >= 6) {
-        setState(() {
-          _errorMsg = "";
-        });
+    if (name.isNotEmpty) {
+      if (_emailValidator(email).isEmpty) {
+        if (pass.isNotEmpty && pass.length >= 6) {
+          setState(() {
+            _errorMsg = "";
+          });
 
-        User user = User();
-        user.email = email;
-        user.password = pass;
-
-        _loginUser(user);
+          _registerUser(User(name: name, email: email, password: pass));
+        } else {
+          setState(() {
+            _errorMsg = "The password must be 6 characters long or more.";
+          });
+        }
       } else {
         setState(() {
-          _errorMsg = "The password must be 6 characters long or more.";
+          _errorMsg = _emailValidator(email);
         });
       }
     } else {
       setState(() {
-        _errorMsg = _emailValidator(email);
+        _errorMsg = "Enter a valid name.";
       });
     }
   }
 
-  _loginUser(User user) async {
+  _registerUser(User user) async {
     FirebaseAuth auth = FirebaseAuth.instance;
     auth
-        .signInWithEmailAndPassword(email: user.email, password: user.password)
+        .createUserWithEmailAndPassword(
+            email: user.email, password: user.password)
         .then((firebaseUser) {
-      Navigator.pushReplacementNamed(context, "/home");
+      Firestore db = Firestore.instance;
+      db
+          .collection("users")
+          .document(firebaseUser.user.uid)
+          .setData(user.toMap());
+
+      Navigator.pushNamedAndRemoveUntil(context, "/loadingCredit", (_)=>false);
     }).catchError((error) {
       print("error app: " + error.toString());
       setState(() {
-        _errorMsg =
-            "Error authenticating user, check email and password and try again!";
+        _errorMsg = "Error registering user, check fields and try again!";
       });
     });
-  }
-
-  Future _loggedIn() async {
-    FirebaseAuth auth = FirebaseAuth.instance;
-
-    if (await auth.currentUser() != null) {
-      Navigator.pushReplacementNamed(context, "/checkout");
-    }
-  }
-
-  @override
-  void initState() {
-    _loggedIn();
-    super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Login"),
+        title: Text("Register"),
       ),
       body: Container(
         decoration: BoxDecoration(color: Colors.blueGrey[600]),
@@ -96,9 +93,25 @@ class _LoginState extends State<Login> {
                 Padding(
                   padding: EdgeInsets.only(bottom: 32),
                   child: Image.asset(
-                    "images/signal.png",
-                    width: 325,
-                    height: 130,
+                    "images/user.png",
+                      width: 180,
+                      height: 150,
+                  ),
+                ),
+                Padding(
+                  padding: EdgeInsets.only(bottom: 8),
+                  child: TextField(
+                    controller: _controllerName,
+                    autofocus: true,
+                    keyboardType: TextInputType.text,
+                    style: TextStyle(fontSize: 20),
+                    decoration: InputDecoration(
+                        contentPadding: EdgeInsets.fromLTRB(24, 12, 24, 12),
+                        hintText: "Name",
+                        filled: true,
+                        fillColor: Colors.white,
+                        border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(32))),
                   ),
                 ),
                 Padding(
@@ -133,7 +146,7 @@ class _LoginState extends State<Login> {
                   padding: EdgeInsets.only(top: 16, bottom: 10),
                   child: RaisedButton(
                       child: Text(
-                        "Login",
+                        "Register",
                         style: TextStyle(color: Colors.white, fontSize: 20),
                       ),
                       color: Theme.of(context).primaryColor,

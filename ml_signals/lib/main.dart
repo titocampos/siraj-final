@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:ml_signals/initial.dart';
+import 'package:ml_signals/screens/initial.dart';
 import 'package:ml_signals/routes.dart';
 
 void main(){

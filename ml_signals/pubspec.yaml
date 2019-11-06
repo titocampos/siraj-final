@@ -31,6 +31,7 @@ dependencies:
   image_picker: ^0.6.1+10
   google_sign_in: ^4.0.11
   stripe_payment: ^1.0.5
+  flutter_spinkit: ^4.0.0
 
 dev_dependencies:
   flutter_test:

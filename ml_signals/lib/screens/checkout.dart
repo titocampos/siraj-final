@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:ml_signals/utilities/constants.dart';
 import 'package:stripe_payment/stripe_payment.dart';
 import 'package:http/http.dart' as http;
 
@@ -25,7 +26,7 @@ class _CheckoutState extends State<Checkout>
   void initState() {
     super.initState();
     StripePayment.setOptions(StripeOptions(
-        publishableKey: "pk_test_a6Q0SlZO4gB0C9lSQO5l1pnR00XwxOZWfi",
+        publishableKey: STRIPE_KEY_PUB,
         merchantId: "Test",
         androidPayMode: 'test'));
   }
@@ -173,7 +174,7 @@ class _CheckoutState extends State<Checkout>
         });
 
         await http
-            .post("http://10.24.24.170:3500/v1/charge",
+            .post(getUrl("v1/charge"),
                 headers: {"Content-Type": "application/json"}, body: body)
             .then((rsp) {
           if (rsp.statusCode == 200) {
@@ -250,7 +251,7 @@ class _CheckoutState extends State<Checkout>
                 autofocus: true,
                 controller: _cardNumberController,
                 cursorColor: Theme.of(context).primaryColor,
-                keyboardType: TextInputType.emailAddress,
+                keyboardType: TextInputType.number,
                 textInputAction: TextInputAction.next,
                 style: TextStyle(fontSize: 18),
                 decoration: InputDecoration(
@@ -310,7 +311,6 @@ class _CheckoutState extends State<Checkout>
               padding: EdgeInsets.only(top: 8, bottom: 2),
               child: myButton("Confirm", Colors.white, accentColor, accentColor,
                   Colors.white, () async {
-                Navigator.of(context).pop();
                 try {
                   assert(_emailController.text.isNotEmpty);
                   List<String> data = _expiryDateController.text.split("/");

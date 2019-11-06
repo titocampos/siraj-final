@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:ml_signals/checkout.dart';
-import 'package:ml_signals/home.dart';
-import 'package:ml_signals/initial.dart';
-import 'package:ml_signals/login.dart';
-import 'package:ml_signals/register.dart';
-import 'package:ml_signals/settings.dart';
+import 'package:ml_signals/screens/checkout.dart';
+import 'package:ml_signals/screens/home.dart';
+import 'package:ml_signals/screens/initial.dart';
+import 'package:ml_signals/screens/loading_credit.dart';
+import 'package:ml_signals/screens/login.dart';
+import 'package:ml_signals/screens/register.dart';
+import 'package:ml_signals/screens/settings.dart';
 
 class RouteGenerator {
   static Route<dynamic> generateRoute(RouteSettings settings) {
@@ -21,6 +22,8 @@ class RouteGenerator {
         return MaterialPageRoute(builder: (_) => Settings());
       case "/checkout":
         return MaterialPageRoute(builder: (_) => Checkout());
+      case "/loadingCredit":
+        return MaterialPageRoute(builder: (_) => LoadingCredit());
     }
     return MaterialPageRoute(builder: (_) => Initial());
   }

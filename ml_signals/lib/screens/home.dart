@@ -8,26 +8,22 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
   TabController _tabController;
+  String userId;
 
   List<String> menuItens = ["Settings", "Logout"];
-
-  String _email = "";
 
   Future _getUserData() async {
     FirebaseAuth auth = FirebaseAuth.instance;
     FirebaseUser currentUser = await auth.currentUser();
-
     setState(() {
-      _email = currentUser.email;
+      userId = currentUser.uid;
     });
   }
 
   @override
   void initState() {
     super.initState();
-
     _getUserData();
-
     _tabController = TabController(length: 2, vsync: this);
   }
 
