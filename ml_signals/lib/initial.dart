@@ -70,7 +70,7 @@ class _InitialState extends State<Initial> {
 
   void _signin() {
     signInWithGoogle().whenComplete(() {
-      Navigator.pushReplacementNamed(context, "/home");
+      Navigator.pushReplacementNamed(context, "/checkout");
     });
   }
 

@@ -10,7 +10,8 @@ class User {
 
     Map<String, dynamic> map = {
       "name" : this.name,
-      "email" : this.email
+      "email" : this.email,
+      "totalCredit": 0
     };
 
     return map;
