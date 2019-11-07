@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:ml_signals/screens/tabs.dart';
 
 class Home extends StatefulWidget {
   @override
@@ -24,7 +25,13 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
   void initState() {
     super.initState();
     _getUserData();
-    _tabController = TabController(length: 2, vsync: this);
+    _tabController = TabController(length: 4, vsync: this);
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _tabController.dispose();
   }
 
   _chooseMenuItem(String item) {
@@ -47,8 +54,29 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Theme.of(context).primaryColor,
       appBar: AppBar(
         title: Text('M/L Signals'),
+        bottom: TabBar(
+          indicatorWeight: 4,
+          indicatorColor: Colors.blueGrey[600],
+          labelStyle: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+          controller: _tabController,
+          tabs: <Widget>[
+            Tab(
+              text: "Cripto",
+            ),
+            Tab(
+              text: "Forex",
+            ),
+            Tab(
+              text: "Metals",
+            ),
+            Tab(
+              text: "Stocks",
+            ),
+          ],
+        ),
         actions: <Widget>[
           PopupMenuButton<String>(
             onSelected: _chooseMenuItem,
@@ -63,12 +91,16 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
           )
         ],
       ),
-      body: Container(
-        decoration: BoxDecoration(color: Colors.blueGrey[600]),
-        child: Center(
-          child: Text("Home"),
-        ),
+      body: TabBarView(
+        controller: _tabController,
+        children: <Widget>[
+          MyTab(TabType.cripto),
+          MyTab(TabType.forex),
+          MyTab(TabType.metals),
+          MyTab(TabType.stock)
+        ],
       ),
+
     );
   }
 }
