@@ -5,7 +5,7 @@
 
 This is a mobile version of [ML Signals](https://github.com/rodrigoms2004/FinanceMidTermSiraj2019) application.
 
-It is build using Flutter. 
+It was built using Flutter. 
 
 
 ### Useful Links
