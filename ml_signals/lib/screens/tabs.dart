@@ -51,7 +51,7 @@ class _MyTabState extends State<MyTab> {
   ListTile makeListTile(Item item) => ListTile(
         contentPadding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
         title: Text(
-          item.name,
+          item.serie,
           style: TextStyle(color: Colors.white70, fontWeight: FontWeight.bold),
         ),
         trailing:
@@ -64,52 +64,52 @@ class _MyTabState extends State<MyTab> {
   List getItems() {
     if (widget.tabType == TabType.cripto) {
       return [
-        Item(asset: "ETHEUR", serie: "ETH/EUR", name: "ETH/EUR"),
-        Item(asset: "ETHUSD", serie: "ETH/USD", name: "ETH/USD"),
-        Item(asset: "BTCEUR", serie: "BTC/EUR", name: "BTC/EUR"),
-        Item(asset: "BTCUSD", serie: "BTC/USD", name: "BTC/USD")
+        Item(asset: "ETHEUR", serie: "ETH/EUR"),
+        Item(asset: "ETHUSD", serie: "ETH/USD"),
+        Item(asset: "BTCEUR", serie: "BTC/EUR"),
+        Item(asset: "BTCUSD", serie: "BTC/USD")
       ];
     } else if (widget.tabType == TabType.forex) {
       return [
-        Item(asset: "AUDUSD", serie: "AUD/USD", name: "AUD/USD"),
-        Item(asset: "NZDUSD", serie: "NZD/USD", name: "NZD/USD"),
-        Item(asset: "EURGBP", serie: "EUR/GBP", name: "EUR/GBP"),
-        Item(asset: "EURUSD", serie: "EUR/USD", name: "EUR/USD"),
-        Item(asset: "GBPJPY", serie: "GBP/JPY", name: "GBP/JPY"),
-        Item(asset: "GBPUSD", serie: "GBP/USD", name: "GBP/USD"),
-        Item(asset: "USDJPY", serie: "USD/JPY", name: "USD/JPY"),
-        Item(asset: "USDCAD", serie: "USD/CAD", name: "USD/CAD"),
-        Item(asset: "USDCHF", serie: "USD/CHF", name: "USD/CHF")
+        Item(asset: "AUDUSD", serie: "AUD/USD"),
+        Item(asset: "NZDUSD", serie: "NZD/USD"),
+        Item(asset: "EURGBP", serie: "EUR/GBP"),
+        Item(asset: "EURUSD", serie: "EUR/USD"),
+        Item(asset: "GBPJPY", serie: "GBP/JPY"),
+        Item(asset: "GBPUSD", serie: "GBP/USD"),
+        Item(asset: "USDJPY", serie: "USD/JPY"),
+        Item(asset: "USDCAD", serie: "USD/CAD"),
+        Item(asset: "USDCHF", serie: "USD/CHF")
       ];
     } else if (widget.tabType == TabType.metals) {
       return [
-        Item(asset: "XAUUSD", serie: "XAU/USD", name: "XAU/USD"),
-        Item(asset: "XAGUSD", serie: "XAG/USD", name: "XAG/USD")
+        Item(asset: "XAUUSD", serie: "XAU/USD"),
+        Item(asset: "XAGUSD", serie: "XAG/USD")
       ];
     } else {
       return [
-        Item(asset: "AAPL", serie: "AAPL", name: "AAPL"),
-        Item(asset: "WTRH", serie: "WTRH", name: "WTRH"),
-        Item(asset: "GOOG", serie: "GOOG", name: "GOOG"),
-        Item(asset: "FB", serie: "FB", name: "FB"),
-        Item(asset: "BA", serie: "BA", name: "BA"),
-        Item(asset: "TSLA", serie: "TSLA", name: "TSLA"),
-        Item(asset: "MSFT", serie: "MSFT", name: "MSFT"),
-        Item(asset: "AMZN", serie: "AMZN", name: "AMZN"),
-        Item(asset: "PYPL", serie: "PYPL", name: "PYPL"),
-        Item(asset: "SCHW", serie: "SCHW", name: "SCHW"),
-        Item(asset: "MO", serie: "MO", name: "MO"),
-        Item(asset: "SDC", serie: "SDC", name: "SDC"),
-        Item(asset: "COST", serie: "COST", name: "COST"),
-        Item(asset: "PEP", serie: "PEP", name: "PEP"),
-        Item(asset: "MTCH", serie: "MTCH", name: "MTCH"),
-        Item(asset: "OSTK", serie: "OSTK", name: "OSTK"),
-        Item(asset: "TWOU", serie: "TWOU", name: "TWOU"),
-        Item(asset: "VRAY", serie: "VRAY", name: "VRAY"),
-        Item(asset: "AMTD", serie: "AMTD", name: "AMTD"),
-        Item(asset: "ETFC", serie: "ETFC", name: "ETFC"),
-        Item(asset: "HPQ", serie: "HPQ", name: "HPQ"),
-        Item(asset: "WTRH", serie: "WTRH", name: "WTRH")
+        Item(asset: "AAPL", serie: "AAPL"),
+        Item(asset: "WTRH", serie: "WTRH"),
+        Item(asset: "GOOG", serie: "GOOG"),
+        Item(asset: "FB", serie: "FB"),
+        Item(asset: "BA", serie: "BA"),
+        Item(asset: "TSLA", serie: "TSLA"),
+        Item(asset: "MSFT", serie: "MSFT"),
+        Item(asset: "AMZN", serie: "AMZN"),
+        Item(asset: "PYPL", serie: "PYPL"),
+        Item(asset: "SCHW", serie: "SCHW"),
+        Item(asset: "MO", serie: "MO"),
+        Item(asset: "SDC", serie: "SDC"),
+        Item(asset: "COST", serie: "COST"),
+        Item(asset: "PEP", serie: "PEP"),
+        Item(asset: "MTCH", serie: "MTCH"),
+        Item(asset: "OSTK", serie: "OSTK"),
+        Item(asset: "TWOU", serie: "TWOU"),
+        Item(asset: "VRAY", serie: "VRAY"),
+        Item(asset: "AMTD", serie: "AMTD"),
+        Item(asset: "ETFC", serie: "ETFC"),
+        Item(asset: "HPQ", serie: "HPQ"),
+        Item(asset: "WTRH", serie: "WTRH")
       ];
     }
   }
