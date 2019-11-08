@@ -8,6 +8,7 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:ml_signals/models/item.dart';
 import 'package:ml_signals/services/networking.dart';
 import 'package:ml_signals/utilities/constants.dart';
+import 'package:intl/intl.dart';
 
 class StockQuote {
   final DateTime timestamp;
@@ -52,8 +53,9 @@ class _DetailPageState extends State<DetailPage> {
 
       NetworkHelper helper = NetworkHelper(getUrl("/v1/data"), "post",
           headers: {"Content-Type": "application/json"}, body: body);
-//      var result = await helper.getData();
-      var result;
+
+      var result = await helper.getData();
+
       if (result == null || result['ok'] == false) {
         if (result == null) {
           print("deu erro");
@@ -271,26 +273,31 @@ class _DetailPageState extends State<DetailPage> {
     }
   }
 
+  String formatDate(DateTime date) {
+    return DateFormat("yyyy-MM-dd HH:mm:ss").format(date);
+  }
+
   Widget _myListView(BuildContext context) {
-    final titles = [
-      'NZDUSD Buy https://t.co/RJeQYJHWld 🙋Crypto Cashflow 🔥 via⟶ https://t.co/XWFpQbU4uP https://t.co/WjTB4hs3mN',
-      '	RT @ForecastCity: New intraday forecasts for #EURUSD #GBPUSD #AUDUSD(Free) #NZDUSD #USDCHF #USDCAD #USDJPY #EURJPY #GBPJPY are published!…',
-      '🙌Let’s make some analysis from higher to lower timeframe on #nzdusd , part.2. . ➡️Swipe to see how we made our anal… https://t.co/Hn2qGZyKGV',
-      'NZDUSD 4H We are looking for long #positions, As you can see here we have an important zone(BLUE) which we use it… https://t.co/gbwOQ7QpHR',
-    ];
     return ListView.builder(
-      itemCount: titles.length,
+      itemCount: tweets.length,
       itemBuilder: (context, index) {
         return Card(
           color: Colors.blueGrey[600],
           child: ListTile(
             title: Row(
               children: <Widget>[
-                Text("2019-11-06 22:10:15"),
-                SizedBox(width:10),
+                Text(
+                  tweets[index]["created_at"].toString().substring(4, 19),
+                  style: TextStyle(fontSize: 12.0, fontWeight: FontWeight.bold),
+                ),
+                SizedBox(width: 10),
                 Expanded(
-                  child: Text(titles[index]),
-                )
+                  child: Text(
+                    tweets[index]["text"],
+                    style:
+                        TextStyle(fontSize: 12.0, fontWeight: FontWeight.bold),
+                  ),
+                ),
               ],
             ),
           ),
